@@ -23,21 +23,16 @@ jobs:
           php-version: '8.4'
           tools: composer:v2
 
-      # Installer dépendances uniquement si PR interne (les forks n'ont pas accès aux secrets)
+      # Installer uniquement si PR interne (les forks n'ont pas accès aux secrets)
       - name: Install PHP & Node Deps (with Flux auth)
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+        # if tu veux garder la protection fork :
+        #  if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
         env:
-          # ⬇️ JSON compact (une seule ligne) — pas de retours à la ligne !
-          COMPOSER_AUTH: >-
-            {"http-basic":{"composer.fluxui.dev":{"username":"${{ secrets.FLUX_USERNAME }}","password":"${{ secrets.FLUX_LICENSE_KEY }}"}}}
+          COMPOSER_HTTP_BASIC_COMPOSER_FLUXUI_DEV_USERNAME: ${{ secrets.FLUX_USERNAME }}
+          COMPOSER_HTTP_BASIC_COMPOSER_FLUXUI_DEV_PASSWORD: ${{ secrets.FLUX_LICENSE_KEY }}
         run: |
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
           npm ci
 
-      - name: Ensure Pint Installed
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-        run: composer require --dev laravel/pint --no-interaction || true
-
       - name: Run Pint
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
         run: vendor/bin/pint --test
