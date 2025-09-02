@@ -23,16 +23,21 @@ jobs:
           php-version: '8.4'
           tools: composer:v2
 
-      # Installer uniquement si PR interne (les forks n'ont pas accès aux secrets)
-      - name: Install PHP & Node Deps (with Flux auth)
-        # if tu veux garder la protection fork :
-        #  if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-        env:
-          COMPOSER_HTTP_BASIC_COMPOSER_FLUXUI_DEV_USERNAME: ${{ secrets.FLUX_USERNAME }}
-          COMPOSER_HTTP_BASIC_COMPOSER_FLUXUI_DEV_PASSWORD: ${{ secrets.FLUX_LICENSE_KEY }}
+      # ⚠️ Secrets non dispo sur PR depuis fork → on skip ces étapes
+      - name: Configure Composer Auth (Flux)
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
         run: |
-          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-          npm ci
+          composer config "http-basic.composer.fluxui.dev" "${{ secrets.FLUX_USERNAME }}" "${{ secrets.FLUX_LICENSE_KEY }}"
+
+      - name: Install PHP Deps
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      # (Optionnel) Si tu n’as pas laravel/pint dans require-dev
+      - name: Ensure Pint Installed
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+        run: composer require --dev laravel/pint --no-interaction || true
 
       - name: Run Pint
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
         run: vendor/bin/pint --test
