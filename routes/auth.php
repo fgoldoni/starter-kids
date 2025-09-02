@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Livewire\Actions\Logout;
-
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 

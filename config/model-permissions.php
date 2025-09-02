@@ -6,7 +6,7 @@ use App\Models\User;
 
 return [
     'guard_name' => 'web',
-    'models' => [
+    'models'     => [
         User::class
     ],
     'abilities' => [
@@ -27,30 +27,30 @@ return [
         'add',
     ],
     'super_admin_role' => 'Super Admin',
-    'roles' => [
+    'roles'            => [
         [
-            'name' => 'Manager',
+            'name'       => 'Manager',
             'guard_name' => 'web',
-            'models' => ['*'],
-            'abilities' => ['viewAny', 'view', 'create', 'update', 'delete'],
+            'models'     => ['*'],
+            'abilities'  => ['viewAny', 'view', 'create', 'update', 'delete'],
         ],
         [
-            'name' => 'Viewer',
+            'name'       => 'Viewer',
             'guard_name' => 'web',
-            'models' => ['*'],
-            'abilities' => ['viewAny', 'view'],
+            'models'     => ['*'],
+            'abilities'  => ['viewAny', 'view'],
         ],
         [
-            'name' => 'User',
+            'name'       => 'User',
             'guard_name' => 'web',
-            'models' => ['*'],
-            'abilities' => ['viewAny', 'view'],
+            'models'     => ['*'],
+            'abilities'  => ['viewAny', 'view'],
         ],
     ],
     'modules' => [
-        'discover' => true,
+        'discover'          => true,
         'model_directories' => ['Entities', 'Models'],
-        'policy_directory' => 'Policies',
-        'models' => [],
+        'policy_directory'  => 'Policies',
+        'models'            => [],
     ],
 ];

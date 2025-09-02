@@ -74,7 +74,9 @@
         "rector": "vendor/bin/rector process --ansi",
         "rector:dry": "vendor/bin/rector process --dry-run --ansi",
         "rector:list": "vendor/bin/rector list-rules",
-        "rector:ci": "vendor/bin/rector process --dry-run --no-progress --ansi --output-format=github"
+        "rector:ci": "vendor/bin/rector process --dry-run --no-progress --ansi --output-format=github",
+        "pint": "php vendor/bin/pint",
+        "pint:test": "php vendor/bin/pint --test"
     },
     "extra": {
         "laravel": {
