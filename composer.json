@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.2",
         "goldoni/laravel-model-permissions": "dev-main",
+        "goldoni/laravel-virtual-wallet": "dev-main",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
@@ -108,6 +109,13 @@
         "0": {
             "type": "vcs",
             "url": "https://github.com/fgoldoni/laravel-model-permissions.git"
+        },
+        "1": {
+            "type": "path",
+            "url": "packages/goldoni/laravel-virtual-wallet",
+            "options": {
+                "symlink": true
+            }
         }
     }
 }

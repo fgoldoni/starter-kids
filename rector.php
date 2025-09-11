@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use RectorLaravel\Set\LaravelSetProvider;
+use Rector\Set\ValueObject\SetList;
+use Rector\Set\ValueObject\LevelSetList;
+
+
 
 return RectorConfig::configure()
-    // Dossiers à analyser
     ->withPaths([
-        __DIR__ . '/app',
-        __DIR__ . '/config',
-        __DIR__ . '/database',
-        __DIR__ . '/routes',
-        __DIR__ . '/tests',
-        __DIR__ . '/Modules',
-        __DIR__ . '/core',
+        __DIR__ . '/packages/goldoni/laravel-virtual-wallet',
     ])
 
     ->withSkip([
@@ -23,14 +20,16 @@ return RectorConfig::configure()
         __DIR__ . '/vendor/*',
         __DIR__ . '/node_modules/*',
         __DIR__ . '/public/*',
-        __DIR__ . '/database/migrations/*',
     ])
 
     ->withParallel()
 
     ->withImportNames(removeUnusedImports: true)
 
-    ->withPhpSets()
+    ->withSets([
+        LevelSetList::UP_TO_PHP_82,
+        SetList::TYPE_DECLARATION,
+    ])
 
     ->withPreparedSets(
         deadCode: true,

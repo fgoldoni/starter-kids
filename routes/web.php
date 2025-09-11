@@ -15,6 +15,7 @@ Route::view('dashboard', 'dashboard')
 
 Route::middleware(['auth'])->group(function (): void {
     Route::redirect('settings', 'settings/profile');
+    Volt::route('settings/wallet', 'settings.wallet')->name('settings.wallet');
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
